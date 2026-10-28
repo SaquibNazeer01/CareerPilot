@@ -48,20 +48,86 @@ It combines real browser sessions with free-tier AI screening answer generation 
 
 ---
 
-## 🚀 Quick Start (Web Dashboard)
+## 📖 Complete Beginner's Guide (Step-by-Step Setup)
 
-The fastest and easiest way to use CareerPilot:
+Anyone can set up and run CareerPilot in less than 5 minutes. No coding experience required!
 
-1. **Launch the Dashboard:**
-   - On Windows, double-click **`start_dashboard.bat`** (or execute `python server.py`).
-2. **Open the Studio:**
-   - Navigate to **`http://127.0.0.1:5000`** in your browser.
-3. **Set Up in 2 Minutes:**
-   - Upload your active resume (`.pdf`).
-   - Fill in your applicant details and target job titles.
-   - Paste your free Gemini/Groq API keys and connect your platform session via 1-Click Cookie Connect.
-4. **Launch Automation:**
-   - Click **Start Naukri Automation** or **Start LinkedIn Automation** whenever you want to apply!
+### Step 1: Download & Install Requirements
+
+1. **Install Python:**
+   - If you don't already have Python installed, download it from [python.org](https://www.python.org/downloads/).
+   - ⚠️ **Important during installation:** Make sure to check the box that says **"Add python.exe to PATH"**.
+
+2. **Download CareerPilot:**
+   - Click the green **Code** button at the top of this GitHub page and click **Download ZIP**.
+   - Extract the downloaded ZIP file to any folder on your computer (e.g. `C:\CareerPilot`).
+   - *(Or if you use Git, run `git clone https://github.com/SaquibNazeer01/CareerPilot.git`)*.
+
+3. **Install Dependencies (One-time only):**
+   - Open Command Prompt or PowerShell in the extracted folder and run:
+     ```bash
+     pip install -r requirements.txt
+     playwright install chromium
+     ```
+
+---
+
+### Step 2: Open the Web Studio
+
+1. In the project folder, simply **double-click** the file named:
+   ```text
+   start_dashboard.bat
+   ```
+   *(Or open your terminal and type `python server.py`)*.
+2. A browser window will automatically open with your personal dashboard at:
+   ```text
+   http://127.0.0.1:5000
+   ```
+
+---
+
+### Step 3: Enter Your Details (Only Once!)
+
+Your details are saved permanently on your computer in local files (`profile.yaml` and `.env`), so you only have to do this once:
+
+1. **Upload Resume:** Click the upload box in **Tab 2 ("Active Resume")** and select your PDF resume.
+2. **Fill Profile Details:** Go to **Tab 3 ("Applicant Dossier")** and enter your name, phone number, total years of experience, current salary, expected salary, and notice period.
+3. **Set Target Job Roles:** In **Tab 4 ("Target Roles")**, enter the job titles you want to search and apply for (e.g., *"Frontend Developer"*, *"Python Developer"*, *"Full Stack Engineer"*).
+4. **Get a Free AI Key (Optional but recommended):**
+   - Click the free link in **Tab 5 ("API Credentials")** to get a Google Gemini API key ([aistudio.google.com/apikey](https://aistudio.google.com/apikey)).
+   - Paste the key and click **Save API Keys**. This allows the tool to answer recruiter screening questions (e.g., *"Why do you want to work with us?"*) accurately using facts from your profile.
+
+---
+
+### Step 4: Connect Your Account (1-Click Cookie Connect)
+
+You don't need to type passwords or solve CAPTCHAs. Since you are already logged in to LinkedIn or Naukri on your normal browser:
+
+#### For LinkedIn:
+1. Open the browser tab where you are logged into **LinkedIn**.
+2. Press <kbd>F12</kbd> (or Right-Click ➔ **Inspect**).
+3. At the top, click the **Application** tab *(in Firefox, click **Storage**)*.
+4. On the left sidebar under **Cookies**, click `https://www.linkedin.com`.
+5. Find the row named **`li_at`**, double-click its value, and copy it (<kbd>Ctrl</kbd> + <kbd>C</kbd>).
+6. In CareerPilot Studio ➔ **Tab 5 ("API Credentials & Sessions")**, paste the value into the **LinkedIn Cookie** box and click **Connect Cookie**.
+
+#### For Naukri:
+1. Open your logged-in **Naukri** tab in your browser.
+2. Press <kbd>F12</kbd> ➔ **Application** ➔ **Cookies** ➔ `https://www.naukri.com`.
+3. Find **`AUTHTOKEN`**, copy its value, and paste it into the **Naukri Cookie** box in Tab 5.
+
+*Your session status will immediately turn green (**● Session Active**)!*
+
+---
+
+### Step 5: Start Applying!
+
+Whenever you want to apply for jobs:
+
+1. Go to **Tab 1 ("Command Center")**.
+2. Click **Launch Naukri Automation** or **Launch LinkedIn Automation**.
+3. Watch the live terminal apply to matching jobs for you automatically, skipping duplicate listings and answering screening questions based on your profile!
+4. **Bonus — Resume Refresher:** Click **"Refresh Resume Now"** anytime to automatically remove and re-upload your resume on Naukri, keeping your profile at the top of recruiter searches!
 
 ---
 
