@@ -1,0 +1,34 @@
+# Environment & Secrets
+.env
+*.env
+*.env.local
+
+# User sensitive profiles & documents
+profile.yaml
+*.pdf
+session_*.json
+
+# Logs & Learned cache
+applications_log.csv
+learned_answers.json
+*.log
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+ENV/
+
+# Debugging artifacts
+debug_screenshots/
+scratch/
+test_*.json
+
+# IDE / Editor configuration
+.vscode/
+.idea/
+*.swp
+*.swo

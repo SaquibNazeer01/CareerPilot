@@ -1,0 +1,39 @@
+# Copy this file to profile.yaml and replace every placeholder with your details.
+candidate_name: "Your Name"
+email: "you@example.com"
+phone: "your phone number"
+current_city: "Your City"
+relocate_cities: []
+
+target_roles:
+  - "Frontend Developer"
+
+total_experience_years: 0
+notice_period_days: 0
+current_ctc_lpa: 0
+expected_ctc_lpa: 0
+expected_ctc_text: "Negotiable"
+ctc_disclosure_policy: "negotiable"
+immediately_available: true
+night_shift_ok: false
+weekend_ok: false
+
+highest_qualification: "Your qualification"
+college: "Your college"
+degree: "Your degree"
+cgpa: ""
+linkedin_url: "https://linkedin.com/in/your-profile"
+github_url: "https://github.com/your-profile"
+
+company_exclude: []
+company_include_only: []
+seniority_floor_years: 0
+seniority_ceiling_years: 2
+job_freshness_days: 3
+salary_floor_lpa: null
+stop_after_n_applications: 5
+pace_seconds_between_actions: 30
+human_input_timeout_seconds: 120
+max_pages_per_role: 5
+browser_mode: "visible"
+resume_file_name: "resume.pdf"

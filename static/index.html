@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareerPilot — Automated Job Application Studio</title>
+  <meta name="description" content="Personal job application assistant. Configure your credentials and resume once, and run automated applications anytime.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Premium Floating Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-block">
+        <div class="brand-crest">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">CareerPilot <span class="brand-pill">STUDIO</span></div>
+          <span class="brand-subtitle">Job Apply Automation</span>
+        </div>
+      </div>
+
+      <!-- Segmented Pill Tabs -->
+      <nav class="nav-segmented">
+        <button class="nav-tab active" data-tab="tab-overview" id="nav-overview">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          Automation Hub
+        </button>
+        <button class="nav-tab" data-tab="tab-profile" id="nav-profile">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          Applicant Profile
+        </button>
+        <button class="nav-tab" data-tab="tab-resume" id="nav-resume">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          Resume Center
+          <span class="tab-badge" id="nav-resume-pill">Pending</span>
+        </button>
+        <button class="nav-tab" data-tab="tab-preferences" id="nav-preferences">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          Roles & Rules
+        </button>
+        <button class="nav-tab" data-tab="tab-credentials" id="nav-credentials">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Keys & Logins
+        </button>
+        <button class="nav-tab" data-tab="tab-history" id="nav-history">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><polyline points="10 9 9 9 8 9"></polyline></svg>
+          Records
+        </button>
+      </nav>
+
+      <!-- Action Button with Shortcut -->
+      <div class="header-actions">
+        <div class="sync-indicator">
+          <span class="sync-dot"></span>
+          <span id="save-status-indicator">All details synced</span>
+        </div>
+        <button class="btn btn-primary btn-save" onclick="saveActiveTabProfile()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+          <span>Save Changes</span>
+          <span class="btn-kbd">Ctrl+S</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main App Layout -->
+  <main class="page-container">
+
+    <!-- ===============================================================
+         TAB 1: AUTOMATION HUB & OVERVIEW
+         =============================================================== -->
+    <section class="tab-pane active" id="tab-overview">
+
+      <!-- Executive Status Hero Card -->
+      <div class="hero-dossier" id="setup-status-card">
+        <div class="hero-top-bar">
+          <div class="hero-tag-group">
+            <span class="badge-accent">Setup Pipeline</span>
+            <div class="status-chip" id="system-status-chip">
+              <span class="chip-dot"></span>
+              <span class="chip-text">Checking System Status...</span>
+            </div>
+          </div>
+          <div class="pipeline-progress">
+            <span class="pipeline-label" id="progress-fraction">0 of 4 Completed</span>
+            <div class="pipeline-track">
+              <div class="pipeline-fill" id="progress-bar-fill" style="width: 25%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-main-message">
+          <h1 id="setup-heading">Configure your details once — apply with one click anytime.</h1>
+          <p id="setup-paragraph">Your candidate profile facts, resume document, and API keys are saved permanently on your local disk in <code>profile.yaml</code> and <code>resume.pdf</code>. Next time you want to apply, just open this page and start automation directly.</p>
+        </div>
+
+        <!-- 4 Interactive Readiness Milestone Cards -->
+        <div class="milestones-grid">
+          <div class="milestone-card" id="step-card-profile" onclick="switchTab('tab-profile')">
+            <div class="milestone-badge-icon">1</div>
+            <div class="milestone-text">
+              <h4>Applicant Details</h4>
+              <p id="step-sub-profile">Name, contact, experience, CTC</p>
+            </div>
+            <span class="milestone-status" id="step-badge-profile">Fill Details</span>
+          </div>
+
+          <div class="milestone-card" id="step-card-resume" onclick="switchTab('tab-resume')">
+            <div class="milestone-badge-icon">2</div>
+            <div class="milestone-text">
+              <h4>Resume Document</h4>
+              <p id="step-sub-resume">Saved permanently as resume.pdf</p>
+            </div>
+            <span class="milestone-status" id="step-badge-resume">Upload File</span>
+          </div>
+
+          <div class="milestone-card" id="step-card-roles" onclick="switchTab('tab-preferences')">
+            <div class="milestone-badge-icon">3</div>
+            <div class="milestone-text">
+              <h4>Target Job Roles</h4>
+              <p id="step-sub-roles">Job titles & filters</p>
+            </div>
+            <span class="milestone-status" id="step-badge-roles">Set Roles</span>
+          </div>
+
+          <div class="milestone-card" id="step-card-keys" onclick="switchTab('tab-credentials')">
+            <div class="milestone-badge-icon">4</div>
+            <div class="milestone-text">
+              <h4>AI Key & Logins</h4>
+              <p id="step-sub-keys">Free Gemini API key</p>
+            </div>
+            <span class="milestone-status" id="step-badge-keys">Key Needed</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Automation Launchpad Grid -->
+      <div class="launch-section">
+        <div class="section-header">
+          <div>
+            <h2>Automation Launchpad</h2>
+            <p>Launches your personal browser session in the background and applies to matching jobs using your stored details.</p>
+          </div>
+        </div>
+
+        <div class="launchpad-grid">
+          <!-- Naukri Primary Card -->
+          <div class="launch-tile featured-tile">
+            <div class="tile-header">
+              <div class="platform-icon-wrap naukri-wrap">
+                <span class="platform-letter">N</span>
+              </div>
+              <div class="tile-title-group">
+                <h3>Naukri Auto-Apply</h3>
+                <span class="tile-badge primary">Primary Platform</span>
+              </div>
+            </div>
+            <p class="tile-description">Searches openings for your configured target roles, verifies experience brackets, and accurately answers post-apply screening questions using your saved profile facts via Gemini AI.</p>
+            <div class="tile-feature-list">
+              <div class="feature-item">✓ Fact-checked screening AI (No hallucinated answers)</div>
+              <div class="feature-item">✓ Rate-limited safe pacing (30s intervals)</div>
+              <div class="feature-item">✓ Skips duplicate jobs automatically</div>
+            </div>
+            <div class="tile-action">
+              <button class="btn btn-emerald btn-lg btn-block" id="btn-run-naukri" onclick="startAutomation('naukri')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Launch Naukri Automation
+              </button>
+              <div class="tile-sublink" id="naukri-session-sublink" style="margin-top: 8px; text-align: center; font-size: 0.8rem;">
+                <a href="javascript:void(0)" onclick="switchTab('tab-credentials')" style="color: var(--primary); text-decoration: none; font-weight: 600;">🔗 Connect / Login Naukri</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- LinkedIn Card -->
+          <div class="launch-tile">
+            <div class="tile-header">
+              <div class="platform-icon-wrap linkedin-wrap">
+                <span class="platform-letter">in</span>
+              </div>
+              <div class="tile-title-group">
+                <h3>LinkedIn Easy Apply</h3>
+                <span class="tile-badge linkedin">Secondary Platform</span>
+              </div>
+            </div>
+            <p class="tile-description">Scans LinkedIn Easy Apply listings, automatically populates multi-step forms, and handles screening questions with saved facts.</p>
+            <div class="tile-feature-list">
+              <div class="feature-item">✓ Auto-fills multi-step job modals</div>
+              <div class="feature-item">✓ Uses saved contact & experience numbers</div>
+              <div class="feature-item">✓ Reuses logged-in session cookies</div>
+            </div>
+            <div class="tile-action">
+              <button class="btn btn-secondary btn-lg btn-block" id="btn-run-linkedin" onclick="startAutomation('linkedin')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Launch LinkedIn Automation
+              </button>
+              <div class="tile-sublink" id="linkedin-session-sublink" style="margin-top: 8px; text-align: center; font-size: 0.8rem;">
+                <a href="javascript:void(0)" onclick="switchTab('tab-credentials')" style="color: var(--primary); text-decoration: none; font-weight: 600;">🔗 Connect / Login LinkedIn</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Refresh Resume Card -->
+          <div class="launch-tile">
+            <div class="tile-header">
+              <div class="platform-icon-wrap refresh-wrap">
+                <span class="platform-letter">⟳</span>
+              </div>
+              <div class="tile-title-group">
+                <h3>Resume Refresh Activity</h3>
+                <span class="tile-badge refresh">Recruiter Visibility</span>
+              </div>
+            </div>
+            <p class="tile-description">Quickly removes and re-uploads your stored resume on Naukri so your profile is timestamped as "recently active" in recruiter searches.</p>
+            <div class="tile-feature-list">
+              <div class="feature-item">✓ Re-uploads active resume file</div>
+              <div class="feature-item">✓ Boosts search rank on recruiter portal</div>
+              <div class="feature-item">✓ Ideal for daily morning / evening runs</div>
+            </div>
+            <div class="tile-action">
+              <button class="btn btn-secondary btn-lg btn-block" id="btn-run-refresh" onclick="startAutomation('refresh_resume')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Refresh Resume Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Obsidian Developer Live Terminal -->
+      <div class="console-enclosure">
+        <div class="console-titlebar">
+          <div class="console-controls">
+            <span class="dot-ctrl red"></span>
+            <span class="dot-ctrl yellow"></span>
+            <span class="dot-ctrl green"></span>
+            <div class="console-title">
+              <span class="pulse-indicator" id="console-live-dot"></span>
+              <span>Live Automation Terminal Output</span>
+            </div>
+            <span class="console-badge" id="console-status-text">Idle</span>
+          </div>
+          <div class="console-toolbar">
+            <button class="btn btn-success btn-xs" id="btn-save-session-now" onclick="sendSaveSessionInput()" style="display: none; background: #059669; color: #fff; font-weight: 600; padding: 5px 12px; border-radius: 6px; border: none; cursor: pointer; margin-right: 6px; font-size: 12px;">
+              💾 Save Session Now (↵)
+            </button>
+            <button class="btn-terminal" onclick="clearConsoleLog()">Clear Log</button>
+            <button class="btn-terminal" onclick="copyConsoleLog()">Copy Output</button>
+            <button class="btn btn-danger btn-xs" id="btn-stop-proc" onclick="stopCurrentAutomation()" style="display: none;">
+              Stop Process
+            </button>
+          </div>
+        </div>
+        <div class="console-screen" id="terminal-screen">
+          <div class="log-entry system">CareerPilot Automation Studio ready. Configure your details once, then click Start Automation anytime.</div>
+        </div>
+        <div class="console-stdin-bar">
+          <div class="stdin-prompt-label">
+            <span class="prompt-icon">&gt;</span>
+            <span>Manual Stdin:</span>
+          </div>
+          <input type="text" id="term-user-input" placeholder="If the automation pauses for confirmation or input, enter here and press Enter..." onkeydown="handleTermInputKey(event)">
+          <button class="btn btn-dark-sm" onclick="sendTerminalInput()">Send (↵)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===============================================================
+         TAB 2: APPLICANT PROFILE DETAILS
+         =============================================================== -->
+    <section class="tab-pane" id="tab-profile">
+      <div class="pane-header-row">
+        <div>
+          <h2>Applicant Information & Background</h2>
+          <p>Saved permanently to <code>profile.yaml</code>. The automation references these exact details to answer recruiter screening questionnaires accurately.</p>
+        </div>
+        <button class="btn btn-primary" onclick="saveActiveTabProfile()">Save Profile</button>
+      </div>
+
+      <div class="dossier-grid">
+        <!-- 1. Identity -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">👤</span>
+              <div>
+                <h3>Personal Identity & Location</h3>
+                <span class="card-desc">Primary contact used on every application</span>
+              </div>
+            </div>
+            <span class="badge-tag required">Required</span>
+          </div>
+
+          <div class="form-group">
+            <label for="prof-name">Full Candidate Name</label>
+            <input type="text" id="prof-name" placeholder="e.g. Alex Johnson">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="prof-email">Email Address</label>
+              <input type="email" id="prof-email" placeholder="e.g. alex@example.com">
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-phone">Phone Number</label>
+              <input type="tel" id="prof-phone" placeholder="e.g. +91 9876543210">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="prof-city">Current City</label>
+              <input type="text" id="prof-city" placeholder="e.g. Bangalore">
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-relocate">Relocation Cities (Comma-separated)</label>
+              <input type="text" id="prof-relocate" placeholder="e.g. Bangalore, Hyderabad, Pune, Remote">
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Experience -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">💼</span>
+              <div>
+                <h3>Experience & Notice Period</h3>
+                <span class="card-desc">Gating fields used to bypass recruiter screening</span>
+              </div>
+            </div>
+            <span class="badge-tag">Screening Gates</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="prof-exp">Total Work Experience (Years)</label>
+              <input type="number" id="prof-exp" step="0.5" min="0" placeholder="e.g. 2">
+              <span class="form-hint">Enter 0 for fresh graduates</span>
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-notice">Notice Period (Days)</label>
+              <input type="number" id="prof-notice" min="0" placeholder="e.g. 30">
+              <span class="form-hint">Enter 0 if serving notice / immediate</span>
+            </div>
+          </div>
+
+          <div class="switch-card">
+            <label class="toggle-switch">
+              <input type="checkbox" id="prof-immediate">
+              <span class="switch-lever"></span>
+            </label>
+            <div class="switch-content">
+              <strong>Immediately Available to Join</strong>
+              <p>Answers "Immediately available" whenever recruiters ask for joining time</p>
+            </div>
+          </div>
+
+          <div class="form-row" style="margin-top: 14px;">
+            <div class="col-6">
+              <label class="checkbox-pill">
+                <input type="checkbox" id="prof-night">
+                <span>Night Shifts OK</span>
+              </label>
+            </div>
+            <div class="col-6">
+              <label class="checkbox-pill">
+                <input type="checkbox" id="prof-weekend">
+                <span>Weekend Work OK</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Compensation -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">💰</span>
+              <div>
+                <h3>Compensation & CTC Benchmarks</h3>
+                <span class="card-desc">Configures how salary questionnaires are answered</span>
+              </div>
+            </div>
+            <span class="badge-tag">Compensation</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="prof-cur-ctc">Current CTC (in Lakhs LPA)</label>
+              <input type="number" id="prof-cur-ctc" step="0.25" min="0" placeholder="e.g. 6.0">
+              <span class="form-hint">Annual CTC in LPA</span>
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-exp-ctc">Expected CTC (in Lakhs LPA)</label>
+              <input type="number" id="prof-exp-ctc" step="0.25" min="0" placeholder="e.g. 9.5">
+              <span class="form-hint">Minimum threshold expected</span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="prof-exp-text">Expected CTC Display Text</label>
+              <input type="text" id="prof-exp-text" placeholder="e.g. Negotiable">
+              <span class="form-hint">Filled when screening form asks for text</span>
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-policy">CTC Disclosure Policy</label>
+              <select id="prof-policy">
+                <option value="negotiable">Negotiable / Prefer to discuss (Recommended)</option>
+                <option value="exact">Disclose Exact Numbers</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Education -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">🎓</span>
+              <div>
+                <h3>Academic Background & Links</h3>
+                <span class="card-desc">Education verification & professional portfolios</span>
+              </div>
+            </div>
+            <span class="badge-tag">Academic</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="prof-highest-qual">Highest Qualification</label>
+              <input type="text" id="prof-highest-qual" placeholder="e.g. B.Tech / Bachelor's">
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-degree">Degree & Branch</label>
+              <input type="text" id="prof-degree" placeholder="e.g. Computer Science">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-8">
+              <label for="prof-college">University / College Name</label>
+              <input type="text" id="prof-college" placeholder="e.g. National Institute of Technology">
+            </div>
+            <div class="form-group col-4">
+              <label for="prof-cgpa">CGPA / %</label>
+              <input type="text" id="prof-cgpa" placeholder="e.g. 8.4">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="prof-linkedin">LinkedIn Profile URL</label>
+              <input type="url" id="prof-linkedin" placeholder="https://linkedin.com/in/username">
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-github">GitHub / Portfolio URL</label>
+              <input type="url" id="prof-github" placeholder="https://github.com/username">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===============================================================
+         TAB 3: RESUME CENTER
+         =============================================================== -->
+    <section class="tab-pane" id="tab-resume">
+      <div class="pane-header-row">
+        <div>
+          <h2>Resume Storage & Document Management</h2>
+          <p>Upload your resume once; it is saved directly to your workspace folder and its filename is permanently recorded in your profile. You can update it anytime.</p>
+        </div>
+      </div>
+
+      <div class="resume-workspace-grid">
+        <!-- Currently Active File Card -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">📄</span>
+              <div>
+                <h3>Currently Attached Resume</h3>
+                <span class="card-desc">File utilized for all job applications</span>
+              </div>
+            </div>
+            <span class="badge-tag success" id="resume-badge-status">Active</span>
+          </div>
+
+          <div class="file-specimen-card">
+            <div class="specimen-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+            </div>
+            <div class="specimen-details">
+              <h4 id="active-resume-filename">resume.pdf</h4>
+              <div class="specimen-meta">
+                <span id="active-resume-size">—</span> • <span id="active-resume-date">Not found on disk</span>
+              </div>
+            </div>
+            <div class="specimen-actions">
+              <a href="/api/resume/download" class="btn btn-secondary btn-sm" id="btn-download-resume" download>
+                Download Document
+              </a>
+            </div>
+          </div>
+
+          <div class="educational-note">
+            <div class="note-title">💡 Permanent Workspace Storage</div>
+            <p>Your resume file is saved permanently inside the project directory. Naukri and LinkedIn auto-apply scripts read this file directly to submit applications and refresh your activity timestamp.</p>
+          </div>
+        </div>
+
+        <!-- Drag & Drop Upload Zone -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">☁️</span>
+              <div>
+                <h3>Upload New or Updated Resume</h3>
+                <span class="card-desc">Replace your active document instantly</span>
+              </div>
+            </div>
+            <span class="badge-tag">Drag & Drop</span>
+          </div>
+
+          <div class="drop-zone-box" id="drop-zone" onclick="document.getElementById('file-resume-input').click()">
+            <input type="file" id="file-resume-input" accept=".pdf,.docx,.doc" style="display: none;" onchange="handleFileSelect(event)">
+            <div class="drop-symbol-ring">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </div>
+            <h4>Choose a resume file or drag & drop here</h4>
+            <p>Supports <strong>.PDF, .DOCX, .DOC</strong> up to 25MB.</p>
+            <div class="file-badges">
+              <span>PDF</span>
+              <span>DOCX</span>
+              <span>DOC</span>
+            </div>
+          </div>
+
+          <div class="upload-progress-wrapper" id="upload-progress-card" style="display: none;">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" id="upload-progress-fill"></div>
+            </div>
+            <span id="upload-progress-text">Saving resume permanently to project...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===============================================================
+         TAB 4: ROLES & RULES
+         =============================================================== -->
+    <section class="tab-pane" id="tab-preferences">
+      <div class="pane-header-row">
+        <div>
+          <h2>Target Job Roles & Filter Criteria</h2>
+          <p>Specify the job titles you want the automation to search for, along with seniority thresholds and company filters.</p>
+        </div>
+        <button class="btn btn-primary" onclick="saveActiveTabProfile()">Save Filters</button>
+      </div>
+
+      <div class="dossier-grid">
+        <!-- Target Roles -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">🎯</span>
+              <div>
+                <h3>Target Job Titles</h3>
+                <span class="card-desc">Sequential keyword searches</span>
+              </div>
+            </div>
+            <span class="badge-tag">Search Queries</span>
+          </div>
+
+          <div class="form-group">
+            <label for="prof-target-roles">Target Roles (Comma-separated)</label>
+            <input type="text" id="prof-target-roles" placeholder="e.g. Frontend Developer, Full Stack Developer, Software Engineer">
+            <span class="form-hint">The bot searches for each of these titles sequentially.</span>
+          </div>
+
+          <div class="quick-tags-container">
+            <span class="quick-tags-label">Quick suggestions:</span>
+            <button type="button" class="tag-pill" onclick="addRoleTag('Frontend Developer')">+ Frontend Developer</button>
+            <button type="button" class="tag-pill" onclick="addRoleTag('Full Stack Developer')">+ Full Stack Developer</button>
+            <button type="button" class="tag-pill" onclick="addRoleTag('Software Engineer')">+ Software Engineer</button>
+            <button type="button" class="tag-pill" onclick="addRoleTag('Python Developer')">+ Python Developer</button>
+          </div>
+
+          <div class="form-row" style="margin-top: 18px;">
+            <div class="form-group col-6">
+              <label for="prof-seniority-min">Min Experience Floor (Years)</label>
+              <input type="number" id="prof-seniority-min" min="0" placeholder="0">
+            </div>
+            <div class="form-group col-6">
+              <label for="prof-seniority-max">Max Experience Ceiling (Years)</label>
+              <input type="number" id="prof-seniority-max" min="0" placeholder="3">
+            </div>
+          </div>
+        </div>
+
+        <!-- Company Exclude -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">🏢</span>
+              <div>
+                <h3>Company Exclusions & Inclusions</h3>
+                <span class="card-desc">Safety blacklist to avoid unwanted companies</span>
+              </div>
+            </div>
+            <span class="badge-tag">Filters</span>
+          </div>
+
+          <div class="form-group">
+            <label for="prof-company-exclude">Company Blacklist (Comma-separated)</label>
+            <input type="text" id="prof-company-exclude" placeholder="e.g. Current Employer, Company X">
+            <span class="form-hint">Jobs matching these company names will be skipped instantly.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="prof-company-include">Company Whitelist (Optional)</label>
+            <input type="text" id="prof-company-include" placeholder="Leave blank to apply to all reputable companies">
+          </div>
+        </div>
+
+        <!-- Safety Controls -->
+        <div class="dossier-card full-width">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">🛡️</span>
+              <div>
+                <h3>Rate Pacing & Anti-Detection Safety Rules</h3>
+                <span class="card-desc">Mimics natural human interaction cadence</span>
+              </div>
+            </div>
+            <span class="badge-tag">Pacing & Human Mimicry</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-3">
+              <label for="prof-stop-n">Stop After N Applications</label>
+              <input type="number" id="prof-stop-n" min="1" max="50" placeholder="5">
+              <span class="form-hint">5-10 recommended for safety</span>
+            </div>
+            <div class="form-group col-3">
+              <label for="prof-pace">Pacing Delay (Seconds)</label>
+              <input type="number" id="prof-pace" min="10" placeholder="30">
+              <span class="form-hint">Wait time between actions</span>
+            </div>
+            <div class="form-group col-3">
+              <label for="prof-freshness">Job Freshness (Days)</label>
+              <input type="number" id="prof-freshness" min="1" placeholder="3">
+              <span class="form-hint">Only apply to recent postings</span>
+            </div>
+            <div class="form-group col-3">
+              <label for="prof-browser-mode">Browser Mode</label>
+              <select id="prof-browser-mode">
+                <option value="visible">Visible (Recommended)</option>
+                <option value="headless">Headless (Background)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===============================================================
+         TAB 5: CREDENTIALS & SESSIONS
+         =============================================================== -->
+    <section class="tab-pane" id="tab-credentials">
+      <div class="pane-header-row">
+        <div>
+          <h2>API Credentials & Platform Sessions</h2>
+          <p>Configure your free AI keys for screening question answering and capture your logged-in browser cookies safely.</p>
+        </div>
+        <button class="btn btn-primary" onclick="saveEnvKeys()">Save API Keys</button>
+      </div>
+
+      <div class="dossier-grid">
+        <!-- 1. AI Screening Keys -->
+        <div class="dossier-card full-width">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="card-icon">🤖</span>
+              <div>
+                <h3>Free AI Screening Answer Providers</h3>
+                <span class="card-desc">Powers real-time, fact-checked screening question answers without hallucinating</span>
+              </div>
+            </div>
+            <span class="badge-tag">LLM Engine</span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col-6">
+              <label for="env-gemini">
+                Google Gemini API Key (100% Free)
+                <a href="https://aistudio.google.com/apikey" target="_blank" class="link-academic">Get Free Key ↗</a>
+              </label>
+              <div class="password-input-group">
+                <input type="password" id="env-gemini" placeholder="AIzaSy...">
+                <button type="button" class="btn-eye" onclick="togglePasswordVisibility('env-gemini')">👁</button>
+              </div>
+            </div>
+
+            <div class="form-group col-6">
+              <label for="env-groq">
+                Groq API Key (Optional Fallback)
+                <a href="https://console.groq.com/keys" target="_blank" class="link-academic">Get Free Key ↗</a>
+              </label>
+              <div class="password-input-group">
+                <input type="password" id="env-groq" placeholder="gsk_...">
+                <button type="button" class="btn-eye" onclick="togglePasswordVisibility('env-groq')">👁</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. LinkedIn Account & Session Connection -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="platform-icon-wrap linkedin-wrap" style="width: 34px; height: 34px; font-size: 0.95rem;">in</span>
+              <div>
+                <h3>LinkedIn Connection</h3>
+                <span class="card-desc">1-Click cookie connect or desktop browser login</span>
+              </div>
+            </div>
+            <span class="session-pill" id="badge-linkedin-session">○ Not Authenticated</span>
+          </div>
+
+          <!-- Method 1: Instant Cookie Connect -->
+          <div class="cookie-connect-box" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); padding: 13px; margin-bottom: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-size: 0.82rem; font-weight: 700; color: #047857;">⚡ Method A: Instant Cookie Connect (Recommended)</span>
+              <span class="badge-tag" style="background: #dcfce7; color: #15803d;">No Popups Needed</span>
+            </div>
+            <p style="font-size: 0.77rem; color: #334155; margin-bottom: 10px; line-height: 1.4;">
+              Already logged into LinkedIn in your browser? Paste your <code>li_at</code> cookie value to connect instantly:
+            </p>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="cookie-linkedin-input" placeholder="Paste li_at cookie value or full cookie string..." style="flex: 1; font-size: 0.8rem; padding: 8px 12px; font-family: monospace;">
+              <button class="btn btn-primary btn-sm" onclick="connectWithCookie('linkedin')" style="white-space: nowrap; background: #059669;">
+                Connect Cookie
+              </button>
+            </div>
+            <details style="margin-top: 10px; font-size: 0.74rem; color: #475569; cursor: pointer;">
+              <summary style="font-weight: 600; color: #0284c7;">📖 How to copy your li_at cookie in 10 seconds</summary>
+              <ol style="margin: 6px 0 0 18px; line-height: 1.5; color: #475569;">
+                <li>In your browser where LinkedIn is open, press <strong>F12</strong> (or right-click ➔ Inspect).</li>
+                <li>Click the <strong>Application</strong> tab (or <strong>Storage</strong> in Firefox).</li>
+                <li>In the left panel, expand <strong>Cookies</strong> ➔ click <code>https://www.linkedin.com</code>.</li>
+                <li>Find <code>li_at</code> in the list, double-click its <strong>Value</strong>, copy it, and paste here!</li>
+              </ol>
+            </details>
+          </div>
+
+          <div style="position: relative; text-align: center; margin: 16px 0 18px;">
+            <hr style="border: 0; border-top: 1px solid #e2e8f0;">
+            <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #ffffff; padding: 0 10px; font-size: 0.72rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">or Method B: Desktop Browser Window</span>
+          </div>
+
+          <div class="form-group">
+            <label for="env-linkedin-user">LinkedIn Email / Phone</label>
+            <input type="text" id="env-linkedin-user" placeholder="e.g. name@example.com">
+          </div>
+
+          <div class="form-group">
+            <label for="env-linkedin-pass">LinkedIn Password</label>
+            <div class="password-input-group">
+              <input type="password" id="env-linkedin-pass" placeholder="Enter password (optional)">
+              <button type="button" class="btn-eye" onclick="togglePasswordVisibility('env-linkedin-pass')">👁</button>
+            </div>
+            <span class="form-hint">Stored safely in your local .env file. Never sent to any external server.</span>
+          </div>
+
+          <div class="platform-actions-row" style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" onclick="connectPlatform('linkedin', 'auto')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>⚡ Auto-Login & Connect</span>
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="connectPlatform('linkedin', 'manual')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>🌐 Manual Browser Login</span>
+            </button>
+          </div>
+          <span class="form-hint" style="margin-top: 10px; display: block; font-size: 0.74rem; color: #64748b;">
+            💡 <em>To see the popup Chrome window on your monitor, start the studio via <code>start_dashboard.bat</code> on your desktop.</em>
+          </span>
+        </div>
+
+        <!-- 3. Naukri Account & Session Connection -->
+        <div class="dossier-card">
+          <div class="dossier-card-title">
+            <div class="title-with-icon">
+              <span class="platform-icon-wrap naukri-wrap" style="width: 34px; height: 34px; font-size: 0.95rem;">N</span>
+              <div>
+                <h3>Naukri.com Connection</h3>
+                <span class="card-desc">1-Click cookie connect or desktop browser login</span>
+              </div>
+            </div>
+            <span class="session-pill" id="badge-naukri-session">○ Not Authenticated</span>
+          </div>
+
+          <!-- Method 1: Instant Cookie Connect -->
+          <div class="cookie-connect-box" style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: var(--radius-sm); padding: 13px; margin-bottom: 18px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;">
+              <span style="font-size: 0.82rem; font-weight: 700; color: #047857;">⚡ Method A: Instant Cookie Connect (Recommended)</span>
+              <span class="badge-tag" style="background: #dcfce7; color: #15803d;">No Popups Needed</span>
+            </div>
+            <p style="font-size: 0.77rem; color: #334155; margin-bottom: 10px; line-height: 1.4;">
+              Already logged into Naukri in your browser? Paste your <code>AUTHTOKEN</code> or full cookie string:
+            </p>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="cookie-naukri-input" placeholder="Paste AUTHTOKEN value or full cookie string..." style="flex: 1; font-size: 0.8rem; padding: 8px 12px; font-family: monospace;">
+              <button class="btn btn-primary btn-sm" onclick="connectWithCookie('naukri')" style="white-space: nowrap; background: #059669;">
+                Connect Cookie
+              </button>
+            </div>
+            <details style="margin-top: 10px; font-size: 0.74rem; color: #475569; cursor: pointer;">
+              <summary style="font-weight: 600; color: #0284c7;">📖 How to copy your Naukri cookie in 10 seconds</summary>
+              <ol style="margin: 6px 0 0 18px; line-height: 1.5; color: #475569;">
+                <li>In your browser where Naukri is open, press <strong>F12</strong> (or right-click ➔ Inspect).</li>
+                <li>Click the <strong>Application</strong> tab (or <strong>Storage</strong> in Firefox).</li>
+                <li>In the left panel, expand <strong>Cookies</strong> ➔ click <code>https://www.naukri.com</code>.</li>
+                <li>Find <code>AUTHTOKEN</code> in the list, double-click its <strong>Value</strong>, copy it, and paste here!</li>
+              </ol>
+            </details>
+          </div>
+
+          <div style="position: relative; text-align: center; margin: 16px 0 18px;">
+            <hr style="border: 0; border-top: 1px solid #e2e8f0;">
+            <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #ffffff; padding: 0 10px; font-size: 0.72rem; color: #94a3b8; font-weight: 700; text-transform: uppercase;">or Method B: Desktop Browser Window</span>
+          </div>
+
+          <div class="form-group">
+            <label for="env-naukri-user">Naukri Email / Phone</label>
+            <input type="text" id="env-naukri-user" placeholder="e.g. name@example.com or 9876543210">
+          </div>
+
+          <div class="form-group">
+            <label for="env-naukri-pass">Naukri Password</label>
+            <div class="password-input-group">
+              <input type="password" id="env-naukri-pass" placeholder="Enter password (optional)">
+              <button type="button" class="btn-eye" onclick="togglePasswordVisibility('env-naukri-pass')">👁</button>
+            </div>
+            <span class="form-hint">Stored safely in your local .env file. Never sent to any external server.</span>
+          </div>
+
+          <div class="platform-actions-row" style="display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+            <button class="btn btn-primary btn-sm" onclick="connectPlatform('naukri', 'auto')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>⚡ Auto-Login & Connect</span>
+            </button>
+            <button class="btn btn-secondary btn-sm" onclick="connectPlatform('naukri', 'manual')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              <span>🌐 Manual Browser Login</span>
+            </button>
+          </div>
+          <span class="form-hint" style="margin-top: 10px; display: block; font-size: 0.74rem; color: #64748b;">
+            💡 <em>To see the popup Chrome window on your monitor, start the studio via <code>start_dashboard.bat</code> on your desktop.</em>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===============================================================
+         TAB 6: APPLICATION RECORDS
+         =============================================================== -->
+    <section class="tab-pane" id="tab-history">
+      <div class="pane-header-row">
+        <div>
+          <h2>Application Activity Records</h2>
+          <p>Every attempted application is logged permanently in <code>applications_log.csv</code>.</p>
+        </div>
+        <button class="btn btn-secondary" onclick="loadApplicationLogs()">Refresh Records</button>
+      </div>
+
+      <!-- Stats Summary Ribbon -->
+      <div class="stats-cards-row">
+        <div class="metric-card">
+          <span class="metric-value" id="stat-total">0</span>
+          <span class="metric-label">Total Examined</span>
+        </div>
+        <div class="metric-card metric-success">
+          <span class="metric-value" id="stat-applied">0</span>
+          <span class="metric-label">Applied Successfully</span>
+        </div>
+        <div class="metric-card metric-warning">
+          <span class="metric-value" id="stat-skipped">0</span>
+          <span class="metric-label">Skipped (Filters)</span>
+        </div>
+        <div class="metric-card metric-danger">
+          <span class="metric-value" id="stat-stopped">0</span>
+          <span class="metric-label">Stopped / Errors</span>
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="table-surface-card">
+        <div class="table-toolbar">
+          <div class="search-input-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="log-search-input" placeholder="Search by role, company, or reason..." oninput="filterLogsTable()">
+          </div>
+          <div class="filter-tab-pills">
+            <button class="filter-pill active" data-filter="all" onclick="setStatusFilter('all')">All</button>
+            <button class="filter-pill" data-filter="applied" onclick="setStatusFilter('applied')">Applied</button>
+            <button class="filter-pill" data-filter="skipped" onclick="setStatusFilter('skipped')">Skipped</button>
+            <button class="filter-pill" data-filter="stopped" onclick="setStatusFilter('stopped')">Stopped</button>
+          </div>
+        </div>
+
+        <div class="records-table-container">
+          <table class="records-table" id="logs-table">
+            <thead>
+              <tr>
+                <th>Date & Time</th>
+                <th>Source</th>
+                <th>Role Title</th>
+                <th>Company</th>
+                <th>Status</th>
+                <th>Outcome Notes</th>
+              </tr>
+            </thead>
+            <tbody id="logs-table-body">
+              <tr>
+                <td colspan="6" class="text-center">Loading application records...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-holder" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
